@@ -1,6 +1,3 @@
-[submodule "\\Users\\Jacob\\OneDrive\\Desktop\\PaloWork\\PalowWorkSite\\web"]
-	path = \\Users\\Jacob\\OneDrive\\Desktop\\PaloWork\\PalowWorkSite\\web
-	url = C:\\Users\\Jacob\\OneDrive\\Desktop\\PaloWork\\PalowWorkSite\\web
 [submodule "web"]
 	path = web
 	url = C:\\Users\\Jacob\\OneDrive\\Desktop\\PaloWork\\PalowWorkSite\\web
