@@ -1,0 +1,9 @@
+query JobListing($id: Int!) {
+	jobListing(id: $id) {
+		companyName
+		jobRequirements
+		location
+		link
+		createdAt
+	}
+}

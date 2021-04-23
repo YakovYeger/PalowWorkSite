@@ -1,0 +1,9 @@
+mutation Login($usernameOrEmail: String!) {
+	login(usernameOrEmail: $usernameOrEmail) {
+		user {
+			id
+			name
+			premium
+		}
+	}
+}

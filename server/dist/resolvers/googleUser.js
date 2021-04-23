@@ -20,6 +20,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserResolver = void 0;
 const googleUsers_1 = require("../entities/googleUsers");
@@ -143,7 +144,7 @@ __decorate([
     __param(0, type_graphql_1.Arg("options", () => userNamePasswordInput_1.userNamePasswordInput)),
     __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [userNamePasswordInput_1.userNamePasswordInput, Object]),
+    __metadata("design:paramtypes", [typeof (_a = typeof userNamePasswordInput_1.userNamePasswordInput !== "undefined" && userNamePasswordInput_1.userNamePasswordInput) === "function" ? _a : Object, Object]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "register", null);
 __decorate([

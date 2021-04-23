@@ -12,7 +12,7 @@ import {
 import { getConnection } from "typeorm";
 import { userNamePasswordInput } from "./userNamePasswordInput";
 import { COOKIE_NAME } from "../constants";
-import { facebookUsers } from "src/entities/facebookUser";
+import { facebookUsers } from "src/entities/facebookUsers";
 
 @ObjectType()
 class FieldError {

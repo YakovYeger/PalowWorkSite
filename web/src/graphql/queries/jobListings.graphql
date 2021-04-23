@@ -1,0 +1,10 @@
+query {
+	jobListings {
+		id
+		jobTitle
+		companyName
+		jobRequirements
+		location
+		link
+	}
+}

@@ -1,6 +1,5 @@
 import { User } from "../entities/User";
 import { MyContext } from "../types";
-import { validateRegister } from "../utils/validateRegister";
 import {
 	Arg,
 	Ctx,
@@ -11,8 +10,7 @@ import {
 	Resolver,
 } from "type-graphql";
 import { getConnection } from "typeorm";
-import { userNamePasswordInput } from "./userNamePasswordInput";
-import argon2 from "argon2";
+import { userNameEmailInput } from "./userNamePasswordInput";
 import { COOKIE_NAME } from "../constants";
 
 @ObjectType()
@@ -37,16 +35,10 @@ export class UserResolver {
 	//register new user
 	@Mutation(() => UserResponse)
 	async register(
-		@Arg("options", () => userNamePasswordInput)
-		options: userNamePasswordInput,
+		@Arg("options", () => userNameEmailInput)
+		options: userNameEmailInput,
 		@Ctx() { req }: MyContext
 	): Promise<UserResponse> {
-		//validation function in seperate file
-		const errors = validateRegister(options);
-		if (errors) {
-			return { errors };
-		}
-		const hashedPassword = await argon2.hash(options.password);
 		let user;
 		try {
 			//User.create({}) equivalent code
@@ -56,7 +48,6 @@ export class UserResolver {
 				.into(User)
 				.values({
 					email: options.email,
-					password: hashedPassword,
 					name: options.name,
 					premium: false,
 				})
@@ -91,7 +82,6 @@ export class UserResolver {
 	@Mutation(() => UserResponse)
 	async login(
 		@Arg("usernameOrEmail") usernameOrEmail: string,
-		@Arg("password") password: string,
 		@Ctx() { req }: MyContext
 	): Promise<UserResponse> {
 		const user = await User.findOne({ where: { email: usernameOrEmail } });
@@ -102,18 +92,6 @@ export class UserResolver {
 					{
 						field: "usernameOrEmail",
 						message: "That email doesn't exist",
-					},
-				],
-			};
-		}
-		const valid = await argon2.verify(user.password, password);
-
-		if (!valid) {
-			return {
-				errors: [
-					{
-						field: "password",
-						message: "Incorrect Password",
 					},
 				],
 			};

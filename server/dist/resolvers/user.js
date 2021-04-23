@@ -20,17 +20,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserResolver = void 0;
 const User_1 = require("../entities/User");
-const validateRegister_1 = require("../utils/validateRegister");
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
 const userNamePasswordInput_1 = require("./userNamePasswordInput");
-const argon2_1 = __importDefault(require("argon2"));
 const constants_1 = require("../constants");
 let FieldError = class FieldError {
 };
@@ -61,11 +56,6 @@ UserResponse = __decorate([
 let UserResolver = class UserResolver {
     register(options, { req }) {
         return __awaiter(this, void 0, void 0, function* () {
-            const errors = validateRegister_1.validateRegister(options);
-            if (errors) {
-                return { errors };
-            }
-            const hashedPassword = yield argon2_1.default.hash(options.password);
             let user;
             try {
                 const result = yield typeorm_1.getConnection()
@@ -74,7 +64,6 @@ let UserResolver = class UserResolver {
                     .into(User_1.User)
                     .values({
                     email: options.email,
-                    password: hashedPassword,
                     name: options.name,
                     premium: false,
                 })
@@ -100,7 +89,7 @@ let UserResolver = class UserResolver {
             return { user };
         });
     }
-    login(usernameOrEmail, password, { req }) {
+    login(usernameOrEmail, { req }) {
         return __awaiter(this, void 0, void 0, function* () {
             const user = yield User_1.User.findOne({ where: { email: usernameOrEmail } });
             if (!user) {
@@ -109,17 +98,6 @@ let UserResolver = class UserResolver {
                         {
                             field: "usernameOrEmail",
                             message: "That email doesn't exist",
-                        },
-                    ],
-                };
-            }
-            const valid = yield argon2_1.default.verify(user.password, password);
-            if (!valid) {
-                return {
-                    errors: [
-                        {
-                            field: "password",
-                            message: "Incorrect Password",
                         },
                     ],
                 };
@@ -156,19 +134,18 @@ let UserResolver = class UserResolver {
 };
 __decorate([
     type_graphql_1.Mutation(() => UserResponse),
-    __param(0, type_graphql_1.Arg("options", () => userNamePasswordInput_1.userNamePasswordInput)),
+    __param(0, type_graphql_1.Arg("options", () => userNamePasswordInput_1.userNameEmailInput)),
     __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [userNamePasswordInput_1.userNamePasswordInput, Object]),
+    __metadata("design:paramtypes", [userNamePasswordInput_1.userNameEmailInput, Object]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "register", null);
 __decorate([
     type_graphql_1.Mutation(() => UserResponse),
     __param(0, type_graphql_1.Arg("usernameOrEmail")),
-    __param(1, type_graphql_1.Arg("password")),
-    __param(2, type_graphql_1.Ctx()),
+    __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, Object]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "login", null);
 __decorate([

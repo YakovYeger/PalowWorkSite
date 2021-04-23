@@ -20,6 +20,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserResolver = void 0;
 const validateRegister_1 = require("../utils/validateRegister");
@@ -27,7 +28,7 @@ const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
 const userNamePasswordInput_1 = require("./userNamePasswordInput");
 const constants_1 = require("../constants");
-const facebookUser_1 = require("src/entities/facebookUser");
+const facebookUsers_1 = require("src/entities/facebookUsers");
 let FieldError = class FieldError {
 };
 __decorate([
@@ -48,8 +49,8 @@ __decorate([
     __metadata("design:type", Array)
 ], UserResponse.prototype, "errors", void 0);
 __decorate([
-    type_graphql_1.Field(() => facebookUser_1.facebookUsers, { nullable: true }),
-    __metadata("design:type", facebookUser_1.facebookUsers)
+    type_graphql_1.Field(() => facebookUsers_1.facebookUsers, { nullable: true }),
+    __metadata("design:type", facebookUsers_1.facebookUsers)
 ], UserResponse.prototype, "user", void 0);
 UserResponse = __decorate([
     type_graphql_1.ObjectType()
@@ -66,7 +67,7 @@ let UserResolver = class UserResolver {
                 const result = yield typeorm_1.getConnection()
                     .createQueryBuilder()
                     .insert()
-                    .into(facebookUser_1.facebookUsers)
+                    .into(facebookUsers_1.facebookUsers)
                     .values({
                     email: options.email,
                     name: options.name,
@@ -96,7 +97,7 @@ let UserResolver = class UserResolver {
     }
     login(usernameOrEmail, { req }) {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield facebookUser_1.facebookUsers.findOne({
+            const user = yield facebookUsers_1.facebookUsers.findOne({
                 where: { email: usernameOrEmail },
             });
             if (!user) {
@@ -133,7 +134,7 @@ let UserResolver = class UserResolver {
             if (!req.session.userId) {
                 return null;
             }
-            const user = yield facebookUser_1.facebookUsers.findOne(req.session.userId);
+            const user = yield facebookUsers_1.facebookUsers.findOne(req.session.userId);
             return user;
         });
     }
@@ -143,7 +144,7 @@ __decorate([
     __param(0, type_graphql_1.Arg("options", () => userNamePasswordInput_1.userNamePasswordInput)),
     __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [userNamePasswordInput_1.userNamePasswordInput, Object]),
+    __metadata("design:paramtypes", [typeof (_a = typeof userNamePasswordInput_1.userNamePasswordInput !== "undefined" && userNamePasswordInput_1.userNamePasswordInput) === "function" ? _a : Object, Object]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "register", null);
 __decorate([
@@ -162,14 +163,14 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UserResolver.prototype, "logout", null);
 __decorate([
-    type_graphql_1.Query(() => facebookUser_1.facebookUsers, { nullable: true }),
+    type_graphql_1.Query(() => facebookUsers_1.facebookUsers, { nullable: true }),
     __param(0, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "me", null);
 UserResolver = __decorate([
-    type_graphql_1.Resolver(facebookUser_1.facebookUsers)
+    type_graphql_1.Resolver(facebookUsers_1.facebookUsers)
 ], UserResolver);
 exports.UserResolver = UserResolver;
 //# sourceMappingURL=facebookUser.js.map

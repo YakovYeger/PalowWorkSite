@@ -9,24 +9,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userNamePasswordInput = void 0;
+exports.userNameEmailInput = void 0;
 const type_graphql_1 = require("type-graphql");
-let userNamePasswordInput = class userNamePasswordInput {
+let userNameEmailInput = class userNameEmailInput {
 };
 __decorate([
     type_graphql_1.Field(),
     __metadata("design:type", String)
-], userNamePasswordInput.prototype, "email", void 0);
+], userNameEmailInput.prototype, "email", void 0);
 __decorate([
     type_graphql_1.Field(),
     __metadata("design:type", String)
-], userNamePasswordInput.prototype, "name", void 0);
-__decorate([
-    type_graphql_1.Field(),
-    __metadata("design:type", String)
-], userNamePasswordInput.prototype, "password", void 0);
-userNamePasswordInput = __decorate([
+], userNameEmailInput.prototype, "name", void 0);
+userNameEmailInput = __decorate([
     type_graphql_1.InputType()
-], userNamePasswordInput);
-exports.userNamePasswordInput = userNamePasswordInput;
+], userNameEmailInput);
+exports.userNameEmailInput = userNameEmailInput;
 //# sourceMappingURL=userNamePasswordInput.js.map

@@ -1,17 +1,18 @@
 import React from "react";
 import Link from "next/link";
 import PageWrapper from "../components/PageWrapper";
-import {withApollo} from "../utils/withApollo"
+import { withApollo } from "../utils/withApollo";
 
 import { gql, useQuery } from "@apollo/client";
 
 import cyberArk from "../assets/logos/cyberArk.jpeg";
+// import { useJobListingsQuery } from "../generated/graphql";
 
 const JOB_LISTINGS = gql`
 	query {
 		jobListings {
 			id
-			jobTitle  
+			jobTitle
 			companyName
 			jobRequirements
 			location
@@ -21,7 +22,8 @@ const JOB_LISTINGS = gql`
 `;
 
 const JobListings = () => {
-	const { loading, error, data } = useQuery(JOB_LISTINGS);
+	 const { loading, error, data } = useQuery(JOB_LISTINGS);
+	// const { loading, error, data } = useJobListingsQuery;
 	if (!data && loading) {
 		return <p>loading....</p>;
 	}
@@ -39,9 +41,6 @@ const JobListings = () => {
 						>
 							<div className="container">
 								<div className="row">
-									{/* <div className="col-12 col-md-4 col-xs-8">
-                <Sidebar />
-              </div> */}
 									<div className="col-12  col-xs-12 ">
 										{/* <!-- form --> */}
 										<div className=" ml-lg-0 ml-md-15">
@@ -85,48 +84,21 @@ const JobListings = () => {
 																	</a>
 																</Link>
 															</h2>
-															{/* <ul className="list-unstyled mb-1 card-tag-list">
-														<li>
-															<Link href="/#">
-																<a className="bg-regent-opacity-15 text-denim font-size-3 rounded-3">
-																	<i className="icon icon-pin-3 mr-2 font-weight-bold"></i>{" "}
-																	Berlyn
-																</a>
-															</Link>
-														</li>
-														<li>
-															<Link href="/#">
-																<a className="bg-regent-opacity-15 text-orange font-size-3 rounded-3">
-																	<i className="fa fa-briefcase mr-2 font-weight-bold"></i>{" "}
-																	Full-time
-																</a>
-															</Link>
-														</li>
-														<li>
-															<Link href="/#">
-																<a className="bg-regent-opacity-15 text-eastern font-size-3 rounded-3">
-																	<i className="fa fa-dollar-sign mr-2 font-weight-bold"></i>{" "}
-																	80K-90K
-																</a>
-															</Link>
-														</li>
-													</ul> */}
+
 															<p className="mb-7 font-size-4 text-gray">
-																{
-																	
-																}
+																{}
 															</p>
 															<div className="card-btn-group">
-																 
 																<Link href="/#">
 																	<a className="btn btn-green text-uppercase btn-medium rounded-3">
 																		Apply
 																		Now
 																	</a>
 																</Link>
-																<Link href="/jobListing/[id]"
-																 as={`/jobListing/${jl.id}`}
-																 >
+																<Link
+																	href="/jobListing/[id]"
+																	as={`/jobListing/${jl.id}`}
+																>
 																	<a className="btn btn-outline-mercury text-black-2 text-uppercase btn-medium rounded-3">
 																		<i className="icon icon-bookmark-2 font-weight-bold mr-4 font-size-4"></i>{" "}
 																		see more
@@ -134,7 +106,6 @@ const JobListings = () => {
 																</Link>
 															</div>
 														</div>
-														{/* <!-- End Feature One --> */}
 													</div>
 												</div>
 											</div>
@@ -142,14 +113,6 @@ const JobListings = () => {
 									</div>
 								</div>
 							</div>
-							{/* <div className="text-center pt-5 pt-lg-13">
-										<Link href="/#">
-											<a className="text-green font-weight-bold text-uppercase font-size-3 d-flex align-items-center justify-content-center">
-												Load More{" "}
-												<i className="fas fa-sort-down ml-3 mt-n2 font-size-4"></i>
-											</a>
-										</Link>
-									</div> */}
 						</div>
 					</div>
 				))}
@@ -157,4 +120,4 @@ const JobListings = () => {
 		</>
 	);
 };
-export default withApollo({ssr: true})(JobListings);
+export default withApollo({ ssr: true })(JobListings);
