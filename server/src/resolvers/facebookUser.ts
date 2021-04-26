@@ -1,5 +1,4 @@
 import { MyContext } from "../types";
-import { validateRegister } from "../utils/validateRegister";
 import {
 	Arg,
 	Ctx,
@@ -10,9 +9,9 @@ import {
 	Resolver,
 } from "type-graphql";
 import { getConnection } from "typeorm";
-import { userNamePasswordInput } from "./userNamePasswordInput";
 import { COOKIE_NAME } from "../constants";
 import { facebookUsers } from "src/entities/facebookUsers";
+import { userNameEmailInput } from "./userNamePasswordInput";
 
 @ObjectType()
 class FieldError {
@@ -36,15 +35,10 @@ export class UserResolver {
 	//register new user
 	@Mutation(() => UserResponse)
 	async register(
-		@Arg("options", () => userNamePasswordInput)
-		options: userNamePasswordInput,
+		@Arg("options", () => userNameEmailInput)
+		options: userNameEmailInput,
 		@Ctx() { req }: MyContext
 	): Promise<UserResponse> {
-		//validation function in seperate file
-		const errors = validateRegister(options);
-		if (errors) {
-			return { errors };
-		}
 		let user;
 		try {
 			//User.create({}) equivalent code

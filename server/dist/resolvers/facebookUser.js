@@ -20,15 +20,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserResolver = void 0;
-const validateRegister_1 = require("../utils/validateRegister");
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
-const userNamePasswordInput_1 = require("./userNamePasswordInput");
 const constants_1 = require("../constants");
 const facebookUsers_1 = require("src/entities/facebookUsers");
+const userNamePasswordInput_1 = require("./userNamePasswordInput");
 let FieldError = class FieldError {
 };
 __decorate([
@@ -58,10 +56,6 @@ UserResponse = __decorate([
 let UserResolver = class UserResolver {
     register(options, { req }) {
         return __awaiter(this, void 0, void 0, function* () {
-            const errors = validateRegister_1.validateRegister(options);
-            if (errors) {
-                return { errors };
-            }
             let user;
             try {
                 const result = yield typeorm_1.getConnection()
@@ -141,10 +135,10 @@ let UserResolver = class UserResolver {
 };
 __decorate([
     type_graphql_1.Mutation(() => UserResponse),
-    __param(0, type_graphql_1.Arg("options", () => userNamePasswordInput_1.userNamePasswordInput)),
+    __param(0, type_graphql_1.Arg("options", () => userNamePasswordInput_1.userNameEmailInput)),
     __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_a = typeof userNamePasswordInput_1.userNamePasswordInput !== "undefined" && userNamePasswordInput_1.userNamePasswordInput) === "function" ? _a : Object, Object]),
+    __metadata("design:paramtypes", [userNamePasswordInput_1.userNameEmailInput, Object]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "register", null);
 __decorate([
