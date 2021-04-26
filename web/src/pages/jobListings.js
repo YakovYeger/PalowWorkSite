@@ -5,7 +5,11 @@ import { withApollo } from "../utils/withApollo";
 
 import { gql, useQuery } from "@apollo/client";
 
-import cyberArk from "../assets/logos/cyberArk.jpeg";
+import CyberArk from "../assets/logos/cyberArk.jpeg";
+import Cisco from "../assets/logos/Cisco.png";
+import Dell from "../assets/logos/Dell.png";
+import Google from "../assets/logos/Google.svg"
+import Wix from "../assets/logos/Wix.png";
 // import { useJobListingsQuery } from "../generated/graphql";
 
 const JOB_LISTINGS = gql`
@@ -21,6 +25,7 @@ const JOB_LISTINGS = gql`
 	}
 `;
 
+const companyLogos = {"Cyberark": CyberArk, "Cisco": Cisco, "Dell": Dell, "Google": Google, "Wix": Wix};
 const JobListings = () => {
 	 const { loading, error, data } = useQuery(JOB_LISTINGS);
 	// const { loading, error, data } = useJobListingsQuery;
@@ -54,7 +59,7 @@ const JobListings = () => {
 																	<a>
 																		<img
 																			src={
-																				cyberArk
+																				companyLogos[jl.companyName]
 																			}
 																			alt=""
 																		/>

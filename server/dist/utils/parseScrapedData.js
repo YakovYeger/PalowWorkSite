@@ -29,12 +29,12 @@ function parseScrapedData(fileName) {
     return __awaiter(this, void 0, void 0, function* () {
         let data = yield readCSV(fileName);
         return data.map((e) => ({
-            companyName: e.companyName,
-            category: e.category,
-            location: e.location,
-            jobRequirements: e.jobRequirements,
-            jobTitle: e.jobTitle,
-            link: e.link,
+            companyName: e.CompanyName,
+            jobTitle: e.JobTitle,
+            location: e.Location,
+            category: e.Location,
+            jobRequirements: e.JobRequirements,
+            link: e.Link
         }));
     });
 }

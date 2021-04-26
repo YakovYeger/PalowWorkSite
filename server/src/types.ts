@@ -4,12 +4,12 @@ import { Redis } from "ioredis";
 
 export type parsedData = {
 	id?: number;
-	companyName: string;
-	jobTitle: string;
-	location: string;
-	category?: string;
-	jobRequirements: string;
-	link: string;
+	CompanyName: string;
+	JobTitle: string;
+	Location: string;
+	JobCategory?: string;
+	JobRequirements: string;
+	Link: string;
 };
 
 export type MyContext = {
