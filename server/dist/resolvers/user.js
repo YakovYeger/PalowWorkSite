@@ -63,8 +63,10 @@ let UserResolver = class UserResolver {
                     .insert()
                     .into(User_1.User)
                     .values({
+                    id: options.googleId,
                     email: options.email,
-                    name: options.name,
+                    familyName: options.familyName,
+                    givenName: options.givenName,
                     premium: false,
                 })
                     .returning("*")
@@ -79,7 +81,7 @@ let UserResolver = class UserResolver {
                         errors: [
                             {
                                 field: "email",
-                                message: "email already taken",
+                                message: "account already linked, please login",
                             },
                         ],
                     };
@@ -131,6 +133,14 @@ let UserResolver = class UserResolver {
             return user;
         });
     }
+    users({ req }) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("session: ", req.session);
+            const users = yield User_1.User.find();
+            console.log(users);
+            return users;
+        });
+    }
 };
 __decorate([
     type_graphql_1.Mutation(() => UserResponse),
@@ -162,6 +172,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "me", null);
+__decorate([
+    type_graphql_1.Query(() => UserResponse),
+    __param(0, type_graphql_1.Ctx()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UserResolver.prototype, "users", null);
 UserResolver = __decorate([
     type_graphql_1.Resolver(User_1.User)
 ], UserResolver);

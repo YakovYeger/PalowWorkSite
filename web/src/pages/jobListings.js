@@ -24,10 +24,20 @@ const JOB_LISTINGS = gql`
 		}
 	}
 `;
-
+const MeDocument = gql`
+  query Me {
+    me {
+      id
+      givenName
+      familyName
+    }
+  }
+`;
 const companyLogos = {"Cyberark": CyberArk, "Cisco": Cisco, "Dell": Dell, "Google": Google, "Wix": Wix};
 const JobListings = () => {
 	 const { loading, error, data } = useQuery(JOB_LISTINGS);
+	 const {  userdata } = useQuery(MeDocument);
+	console.log(userdata)
 	// const { loading, error, data } = useJobListingsQuery;
 	if (!data && loading) {
 		return <p>loading....</p>;
@@ -94,8 +104,8 @@ const JobListings = () => {
 																{}
 															</p>
 															<div className="card-btn-group">
-																<Link href="/#">
-																	<a className="btn btn-green text-uppercase btn-medium rounded-3">
+																<Link href={jl.link}>
+																	<a className="btn btn-green text-uppercase btn-medium rounded-3" target="_blank">
 																		Apply
 																		Now
 																	</a>

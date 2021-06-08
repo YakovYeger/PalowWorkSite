@@ -63,8 +63,10 @@ let UserResolver = class UserResolver {
                     .insert()
                     .into(googleUsers_1.googleUsers)
                     .values({
+                    id: parseInt(options.googleId),
                     email: options.email,
-                    name: options.name,
+                    familyName: options.familyName,
+                    givenName: options.givenName,
                     premium: false,
                 })
                     .returning("*")

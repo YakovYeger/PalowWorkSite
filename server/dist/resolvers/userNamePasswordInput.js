@@ -20,7 +20,15 @@ __decorate([
 __decorate([
     type_graphql_1.Field(),
     __metadata("design:type", String)
-], userNameEmailInput.prototype, "name", void 0);
+], userNameEmailInput.prototype, "familyName", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], userNameEmailInput.prototype, "givenName", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], userNameEmailInput.prototype, "googleId", void 0);
 userNameEmailInput = __decorate([
     type_graphql_1.InputType()
 ], userNameEmailInput);

@@ -13,6 +13,7 @@ import Logo from "../Logo";
 import { menuItems } from "./menuItems";
 
 import imgP from "../../assets/image/header-profile.png";
+import { gql, useQuery } from "@apollo/client";
 
 const SiteHeader = styled.header`
   .dropdown-toggle::after {
@@ -40,6 +41,15 @@ const SiteHeader = styled.header`
     }
   }
 `;
+const MeDocument = gql`
+  query Me {
+    me {
+      id
+      givenName
+      familyName
+    }
+  }
+`;
 
 const ToggleButton = styled.button`
   color: ${({ dark, theme }) =>
@@ -52,9 +62,9 @@ const Header = () => {
   const gContext = useContext(GlobalContext);
   const [showScrolling, setShowScrolling] = useState(false);
   const [showReveal, setShowReveal] = useState(false);
-
+  const {loading, data} = useQuery(MeDocument);
   const size = useWindowSize();
-
+console.log(data);
   useScrollPosition(({ prevPos, currPos }) => {
     if (currPos.y < 0) {
       setShowScrolling(true);
@@ -315,7 +325,7 @@ const Header = () => {
               </div>
             )}
 
-            {gContext.header.button === "account" && (
+            {gContext.header.button === "account" && !data?.me && (
               <div className="header-btns header-btn-devider ml-auto pr-2 ml-lg-6 d-none d-xs-flex">
                 <a
                   className="btn btn-transparent text-uppercase font-size-3 heading-default-color focus-reset"
@@ -337,6 +347,12 @@ const Header = () => {
                 >
                   Sign Up
                 </a>
+              </div>
+            )}
+
+            {gContext.data?.me && (
+              <div className="header-btns header-btn-devider ml-auto pr-2 ml-lg-6 d-none d-xs-flex">
+                <div>{data.me.givenName}</div>
               </div>
             )}
 

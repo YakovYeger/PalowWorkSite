@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { Redis } from "ioredis";
-//import Express from "express-session";
 
 export type parsedData = {
 	id?: number;

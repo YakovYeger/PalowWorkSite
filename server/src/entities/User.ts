@@ -1,18 +1,18 @@
-import { Field, ObjectType, Int } from "type-graphql";
+import { Field, ObjectType, Float } from "type-graphql";
 import {
 	Entity,
-	PrimaryGeneratedColumn,
 	Column,
 	CreateDateColumn,
 	BaseEntity,
+	PrimaryColumn,
 } from "typeorm";
 
 @ObjectType()
 @Entity()
 export class User extends BaseEntity {
-	@Field(() => Int)
-	@PrimaryGeneratedColumn()
-	id!: number;
+	@PrimaryColumn()
+	@Field(() => Float)
+	id!: string;
 
 	@Field()
 	@Column({ unique: true })
@@ -20,7 +20,11 @@ export class User extends BaseEntity {
 
 	@Field(() => String)
 	@Column()
-	name: string;
+	familyName: string;
+
+	@Field(() => String)
+	@Column()
+	givenName: string;
 
 	@Field(() => String)
 	@CreateDateColumn()

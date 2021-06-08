@@ -13,7 +13,11 @@ export class googleUsers extends BaseEntity {
 
 	@Field(() => String)
 	@Column()
-	name: string;
+	familyName: string;
+
+	@Field(() => String)
+	@Column()
+	givenName: string;
 
 	@Field(() => String)
 	@CreateDateColumn()

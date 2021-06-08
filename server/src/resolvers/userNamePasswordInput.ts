@@ -5,5 +5,9 @@ export class userNameEmailInput {
 	@Field()
 	email: string;
 	@Field()
-	name: string;
+	familyName: string;
+	@Field()
+	givenName: string
+	@Field()
+	googleId: string
 }

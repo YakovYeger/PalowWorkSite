@@ -16,8 +16,8 @@ import Redis from "ioredis";
 import session from "express-session";
 import connectRedis from "connect-redis";
 import { MyContext } from "./types";
-import { parseScrapedData } from "./utils/parseScrapedData";
-import {getConnection} from "typeorm";
+// import { parseScrapedData } from "./utils/parseScrapedData";
+// import {getConnection} from "typeorm";
 
 
 const main = async () => {
@@ -35,14 +35,14 @@ const main = async () => {
 			migrationsDir: "migration",
 		},
 	});
-	JobListing.clear()
-	const data = await parseScrapedData('src/csvFiles/allJobs.csv');
-	await getConnection()
-    .createQueryBuilder()
-    .insert()
-    .into(JobListing)
-    .values(data)
-    .execute();
+	// JobListing.clear()
+	// const data = await parseScrapedData('src/csvFiles/allJobs.csv');
+	// await getConnection()
+    // .createQueryBuilder()
+    // .insert()
+    // .into(JobListing)
+    // .values(data)
+    // .execute();
 
 	await conn.runMigrations();
 	const app = express();

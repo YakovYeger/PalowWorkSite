@@ -48,7 +48,7 @@ export class UserResolver {
 				.into(facebookUsers)
 				.values({
 					email: options.email,
-					name: options.name,
+					name: options.givenName + options.familyName,
 					premium: false,
 				})
 				.returning("*")

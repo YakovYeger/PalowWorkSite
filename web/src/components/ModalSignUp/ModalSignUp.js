@@ -2,6 +2,9 @@ import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { Modal } from "react-bootstrap";
 import GlobalContext from "../../context/GlobalContext";
+import GoogleLogin from "react-google-login";
+import { gql, useMutation } from "@apollo/client";
+import { useRouter } from "next/router";
 
 const ModalStyled = styled(Modal)`
   /* &.modal {
@@ -9,7 +12,34 @@ const ModalStyled = styled(Modal)`
   } */
 `;
 
+const MeDocument = gql`
+	query Me {
+		me {
+			id
+			name
+			premium
+		}
+	}
+`;
+
+const REGISTER = gql`
+  mutation Register($options: userNameEmailInput!) {
+    register(options: $options) {
+      errors{
+        field
+        message
+      }
+      user{
+        givenName
+        familyName
+        id
+        email
+      }
+    }
+  }
+`;
 const ModalSignUp = (props) => {
+  const router = useRouter();
   const [showPassFirst, setShowPassFirst] = useState(true);
   const [showPassSecond, setShowPassSecond] = useState(true);
 
@@ -24,6 +54,39 @@ const ModalSignUp = (props) => {
 
   const togglePasswordSecond = () => {
     setShowPassSecond(!showPassSecond);
+  };
+  const [Register] = useMutation(REGISTER);
+
+  const onSuccessGoogle = async (res) => {
+    console.log("[Login Success] currentUser: ", res.profileObj);
+    const ops = (({ familyName, givenName, email, googleId }) => ({
+      familyName,
+      givenName,
+      email,
+      googleId,
+    }))(res.profileObj);
+    const response = await Register({
+      variables: { options: ops },
+      update: (cache, { data }) => {
+        cache.writeQuery({
+          query: MeDocument,
+          data: {
+            __typename: "Query",
+            me: ops,
+          },
+        });
+      },
+    });
+    if (response.data?.register.errors) {
+      console.log(response.data.register.errors)
+    } else if (response.data?.register.user) {
+      // worked
+      router.push("/jobListings");
+    }
+  };
+
+  const onFailureGoogle = (res) => {
+    console.log("[login falied] res:", res);
   };
 
   return (
@@ -87,15 +150,23 @@ const ModalSignUp = (props) => {
                     </a>
                   </div>
                   <div className="col-4 col-xs-12">
-                    <a
-                      href="/#"
-                      className="font-size-4 font-weight-semibold position-relative text-white bg-poppy h-px-48 flex-all-center w-100 px-6 rounded-5 mb-4"
-                    >
-                      <i className="fab fa-google pos-xs-abs-cl font-size-7 ml-xs-4"></i>{" "}
-                      <span className="d-none d-xs-block">
-                        Import from Google
-                      </span>
-                    </a>
+                    <GoogleLogin
+                      clientId="526830544716-0025jhlsn28b8f3mf836adehm14cvgmt.apps.googleusercontent.com"
+                      render={(renderProps) => (
+                        <button
+                          className=" d-none d-xs-block font-size-4 font-weight-semibold position-relative text-white bg-poppy h-px-48 flex-all-center w-100 px-6 rounded-5 mb-4"
+                          onClick={renderProps.onClick}
+                          disabled={renderProps.disabled}
+                          isSignedIn={true}
+                        >
+                          Import from Google
+                        </button>
+                      )}
+                      buttonText="Login"
+                      onSuccess={onSuccessGoogle}
+                      onFailure={onFailureGoogle}
+                      cookiePolicy={"single_host_origin"}
+                    />
                   </div>
                   <div className="col-4 col-xs-12">
                     <a

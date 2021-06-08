@@ -47,8 +47,10 @@ export class UserResolver {
 				.insert()
 				.into(User)
 				.values({
+					id: options.googleId,
 					email: options.email,
-					name: options.name,
+					familyName: options.familyName,
+					givenName: options.givenName,
 					premium: false,
 				})
 				.returning("*")
@@ -66,7 +68,7 @@ export class UserResolver {
 					errors: [
 						{
 							field: "email",
-							message: "email already taken",
+							message: "account already linked, please login",
 						},
 					],
 				};
@@ -85,7 +87,6 @@ export class UserResolver {
 		@Ctx() { req }: MyContext
 	): Promise<UserResponse> {
 		const user = await User.findOne({ where: { email: usernameOrEmail } });
-
 		if (!user) {
 			return {
 				errors: [
@@ -129,4 +130,12 @@ export class UserResolver {
 		const user = await User.findOne(req.session.userId);
 		return user;
 	}
+	@Query( () => UserResponse)
+	async users(@Ctx() {req}: MyContext){
+		console.log("session: ", req.session);
+		const users = await User.find()
+		console.log(users)
+		return users
+	}
+
 }
